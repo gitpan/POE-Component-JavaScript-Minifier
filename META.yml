@@ -1,0 +1,24 @@
+---
+name: POE-Component-JavaScript-Minifier
+version: 0.0101
+author:
+  - "Zoffix <'zoffix@cpan.org'>"
+abstract: non-blocking wrapper around JavaScript::Minifier with URI fetching abilities
+license: perl
+resources:
+  license: http://dev.perl.org/licenses/
+requires:
+  JavaScript::Minifier: 1.05
+  LWP::UserAgent: 2.036
+  POE: 0.9999
+  POE::Component::NonBlockingWrapper::Base: 0.002
+build_requires:
+  Test::More: 0
+provides:
+  POE::Component::JavaScript::Minifier:
+    file: lib/POE/Component/JavaScript/Minifier.pm
+    version: 0.0101
+generated_by: Module::Build version 0.2808
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
