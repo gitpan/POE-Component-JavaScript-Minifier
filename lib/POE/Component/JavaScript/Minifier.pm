@@ -3,11 +3,11 @@ package POE::Component::JavaScript::Minifier;
 use warnings;
 use strict;
 
-our $VERSION = '0.0101';
+our $VERSION = '1.001001'; # VERSION
 
 use POE;
 use base 'POE::Component::NonBlockingWrapper::Base';
-use JavaScript::Minifier;
+use JavaScript::Minifier 1.10 ();
 use LWP::UserAgent;
 
 sub _methods_define {
@@ -88,6 +88,8 @@ sub _process_request {
 1;
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 POE::Component::JavaScript::Minifier - non-blocking wrapper around JavaScript::Minifier with URI fetching abilities
@@ -106,12 +108,11 @@ POE::Component::JavaScript::Minifier - non-blocking wrapper around JavaScript::M
     $poe_kernel->run;
 
     sub _start {
-        $poco->minify(
-                event   => 'results',
-                uri     => 'http://zoffix.com/main.js',
-                outfile => 'out.js',
-            }
-        );
+        $poco->minify({
+            event   => 'results',
+            uri     => 'http://zoffix.com/main.js',
+            outfile => 'out.js',
+        });
     }
 
     sub results {
@@ -124,7 +125,7 @@ POE::Component::JavaScript::Minifier - non-blocking wrapper around JavaScript::M
         $poco->shutdown;
     }
 
-Using event based interface is also possible of course.
+    # Using event based interface is also possible of course.
 
 =head1 DESCRIPTION
 
@@ -344,7 +345,7 @@ Takes no arguments. Tells the component to shut itself down.
     };
 
 The event handler set up to handle the event which you've specified in
-the C<event> argument to C<minify()> method/event will recieve input
+the C<event> argument to C<minify()> method/event will receive input
 in the C<$_[ARG0]> in a form of a hashref. The possible keys/value of
 that hashref are as follows:
 
@@ -359,7 +360,7 @@ will be present and its value will be minified JavaScript code.
 
     { 'error' => 'infile error [No such file or directory]' }
 
-If an error occured, the C<error> key will be present and its value will be description
+If an error occurred, the C<error> key will be present and its value will be description
 of an error. The error could be errors during opening input or output files as well as
 network errors when C<uri> argument was given to C<minify> event/method.
 
@@ -391,52 +392,28 @@ event/method will be present intact in the result.
 
 L<POE>, L<JavaScript::Minifier>
 
-=head1 AUTHOR
+=head1 REPOSITORY
 
-'Zoffix, C<< <'zoffix at cpan.org'> >>
-(L<http://zoffix.com/>, L<http://haslayout.net/>, L<http://zofdesign.com/>)
+Fork this module on GitHub:
+L<https://github.com/zoffixznet/POE-Component-JavaScript-Minifier>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-poe-component-javascript-minifier at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=POE-Component-JavaScript-Minifier>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+To report bugs or request features, please use
+L<https://github.com/zoffixznet/POE-Component-JavaScript-Minifier/issues>
 
-=head1 SUPPORT
+If you can't access GitHub, you can email your request
+to C<bug-POE-Component-JavaScript-Minifier at rt.cpan.org>
 
-You can find documentation for this module with the perldoc command.
+=head1 AUTHOR
 
-    perldoc POE::Component::JavaScript::Minifier
+Zoffix Znet <zoffix at cpan.org>
+(L<http://zoffix.com/>, L<http://haslayout.net/>)
 
-You can also look for information at:
+=head1 LICENSE
 
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=POE-Component-JavaScript-Minifier>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/POE-Component-JavaScript-Minifier>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/POE-Component-JavaScript-Minifier>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/POE-Component-JavaScript-Minifier>
-
-=back
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2008 'Zoffix, all rights reserved.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
+You can use and distribute this module under the same terms as Perl itself.
+See the C<LICENSE> file included in this distribution for complete
+details.
 
 =cut
-
